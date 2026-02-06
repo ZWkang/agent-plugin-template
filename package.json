@@ -1,0 +1,20 @@
+{
+  "name": "claude-plugin-template",
+  "version": "1.0.0",
+  "description": "A comprehensive Claude Code plugin template",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts",
+    "prepare": "chmod +x hooks/*.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT"
+}

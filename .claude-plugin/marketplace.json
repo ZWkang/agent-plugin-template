@@ -1,0 +1,37 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "claude-plugin-template",
+  "version": "0.0.1",
+  "owner": {
+    "name": "zwkang",
+    "email": "example@example.com"
+  },
+  "metadata": {
+    "description": "A comprehensive Claude Code plugin template with skills, hooks, commands, and agents"
+  },
+  "plugins": [
+    {
+      "name": "claude-plugin-template",
+      "source": "./",
+      "description": "Comprehensive template for building Claude Code plugins",
+      "author": {
+        "name": "zwkang"
+      },
+      "homepage": "https://github.com/zwkang/claude-plugin-template",
+      "repository": "https://github.com/zwkang/claude-plugin-template",
+      "license": "MIT",
+      "keywords": [
+        "template",
+        "skills",
+        "hooks",
+        "commands",
+        "agents"
+      ],
+      "tags": [
+        "template",
+        "starter",
+        "best-practices"
+      ]
+    }
+  ]
+}
