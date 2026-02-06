@@ -1,12 +1,23 @@
-# Claude Code Plugin Template
+<div align="center">
+  <img src="assets/banner.svg" alt="Claude Plugin Template Banner" width="100%" />
 
-A comprehensive template for building [Claude Code](https://docs.claude.com/en/docs/claude-code/overview) plugins. This repository provides a standard structure for creating Skills, Agents, Hooks, and integrating MCP/LSP servers.
+  # Claude Code Plugin Template
 
-Reference documentation:
-- [Plugin Reference](https://code.claude.com/docs/en/plugins-reference)
-- [Plugin Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-eb5e34)](https://docs.claude.com)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-3178c6)](https://www.typescriptlang.org/)
 
-## Quick Start
+  [English](./README.md) | [简体中文](./README_zh-CN.md)
+
+  <p>
+    A comprehensive template for building <a href="https://docs.claude.com/en/docs/claude-code/overview">Claude Code</a> plugins.<br/>
+    Standard structure for Skills, Agents, Hooks, MCP & LSP.
+  </p>
+</div>
+
+<br/>
+
+## ⚡ Quick Start
 
 ### 1. Create your plugin
 ```bash
@@ -22,51 +33,71 @@ npm run prepare
 ```
 
 ### 2. Develop and Test
-You can test your plugin without installing it by loading it directly in your current session:
-```bash
-claude --plugin-dir .
-```
-Or start the TUI with the plugin loaded:
+Test your plugin instantly in your current session:
 ```bash
 claude --plugin-dir .
 ```
 
 ### 3. Verify
-Run the validation command to check for configuration errors:
+Check for configuration errors:
 ```bash
 claude plugin validate
 ```
 
-## Project Structure
+---
 
-This template follows the [Standard Plugin Layout](https://code.claude.com/docs/en/plugins-reference#plugin-directory-structure):
+## 🏗️ Project Structure
 
-```text
-my-plugin/
-├── .claude-plugin/
-│   ├── plugin.json          # Plugin manifest (metadata & config)
-│   └── marketplace.json     # Marketplace definition (for distribution)
-├── skills/                  # Skills (workflows & capabilities)
-│   └── my-skill/
-│       ├── SKILL.md         # Main skill definition
-│       └── scripts/         # Skill-specific scripts
-├── agents/                  # Subagent definitions
-│   └── my-agent.md
-├── hooks/                   # Event handlers
-│   ├── hooks.json           # Hook configuration
-│   └── session-start.ts     # Example hook script
-├── commands/                # (Legacy) Simple slash commands
-│   └── my-command.md
-├── .mcp.json                # MCP Server configuration
-├── .lsp.json                # LSP Server configuration
-├── package.json             # Dependencies for scripts
-└── README.md
+This template follows the [Standard Plugin Layout](https://code.claude.com/docs/en/plugins-reference#plugin-directory-structure).
+
+```mermaid
+graph TD
+    Root[Plugin Root] --> Manifest[.claude-plugin/plugin.json]
+    Root --> Skills[skills/]
+    Root --> Agents[agents/]
+    Root --> Hooks[hooks/]
+    Root --> MCP[.mcp.json]
+    Root --> LSP[.lsp.json]
+
+    Skills --> MySkill[my-skill/SKILL.md]
+    Agents --> MyAgent[my-agent.md]
+    Hooks --> HookConfig[hooks.json]
+    Hooks --> Scripts[scripts/*.ts]
+
+    style Root fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style Manifest fill:#e1f5fe,stroke:#01579b
+    style Skills fill:#e8f5e9,stroke:#2e7d32
+    style Agents fill:#fff3e0,stroke:#ef6c00
 ```
 
-## Configuration
+---
 
-### Plugin Manifest (`.claude-plugin/plugin.json`)
-Defines metadata and component locations.
+## 🧩 Components
+
+### 🧠 Skills (`skills/`)
+Reusable workflows invoked automatically or via `/slash-command`.
+- **Path**: `skills/<name>/SKILL.md`
+- **Tip**: Keep them focused on a single capability.
+
+### 🤖 Agents (`agents/`)
+Specialized sub-agents for complex, multi-step tasks.
+- **Path**: `agents/<name>.md`
+- **Config**: YAML frontmatter + System Prompt.
+
+### 🪝 Hooks (`hooks/`)
+Event-driven automation (e.g., `SessionStart`, `PreToolUse`).
+- **Config**: `hooks/hooks.json`
+- **Scripting**: Use `${CLAUDE_PLUGIN_ROOT}` for paths.
+
+### 🔌 Connectivity
+- **MCP Servers** (`.mcp.json`): Connect external tools & APIs.
+- **LSP Servers** (`.lsp.json`): Add language intelligence.
+
+---
+
+## 🛠️ Configuration
+
+**Plugin Manifest** (`.claude-plugin/plugin.json`)
 ```json
 {
   "name": "my-plugin",
@@ -78,68 +109,23 @@ Defines metadata and component locations.
 }
 ```
 
-## Components
-
-### 1. Skills (`skills/`)
-Skills are specialized workflows. Create a directory in `skills/` with a `SKILL.md` file.
-- **Location**: `skills/<skill-name>/SKILL.md`
-- **Usage**: Claude invokes these automatically or via `/skill-name`.
-
-### 2. Agents (`agents/`)
-Specialized sub-agents for complex tasks.
-- **Location**: `agents/<agent-name>.md`
-- **Format**: Markdown with frontmatter.
-```markdown
 ---
-name: code-reviewer
-description: specialized agent for reviewing PRs
----
-Your system prompt here...
-```
 
-### 3. Hooks (`hooks/`)
-Respond to Claude Code events (e.g., `SessionStart`, `PostToolUse`).
-- **Config**: `hooks/hooks.json`
-- **Important**: Use `${CLAUDE_PLUGIN_ROOT}` in command paths.
+## 📦 Distribution
 
-Example `hooks.json`:
-```json
-{
-  "hooks": {
-    "SessionStart": [
-      {
-        "type": "command",
-        "command": "npx tsx ${CLAUDE_PLUGIN_ROOT}/hooks/session-start.ts"
-      }
-    ]
-  }
-}
-```
-
-### 4. MCP Servers (`.mcp.json`)
-Connect external tools via the [Model Context Protocol](https://modelcontextprotocol.io).
-
-### 5. LSP Servers (`.lsp.json`)
-Add language intelligence (diagnostics, autocomplete) for specific file types.
-
-## Development Rules
-
-1. **Relative Paths**: All paths in `plugin.json` must be relative to the plugin root (start with `./`).
-2. **Environment Variables**: Use `${CLAUDE_PLUGIN_ROOT}` to reference files in your scripts, as plugins are copied to a cache directory during execution.
-3. **Dependencies**: If using `npm` dependencies in scripts, ensure they are installed or bundled.
-
-## Distribution
-
-To share your plugin:
-1. Commit your changes to a public Git repository.
-2. Update `.claude-plugin/marketplace.json` with your plugin details.
-3. Users can install it via:
+1. **Commit** your changes.
+2. **Update** `.claude-plugin/marketplace.json`.
+3. **Install**:
    ```bash
    claude plugin install <plugin-name>@<marketplace-url>
    ```
 
-## Troubleshooting
+## 🔍 Troubleshooting
 
-- **Plugin not loading?** Run `claude --debug` to see loading logs.
-- **Command not found?** Ensure scripts are executable (`chmod +x`).
-- **Path errors?** Check if you are using `${CLAUDE_PLUGIN_ROOT}`.
+| Issue | Solution |
+|-------|----------|
+| **Plugin not loading** | Run `claude --debug` to see logs |
+| **Command fails** | `chmod +x` your scripts |
+| **Path errors** | Use `${CLAUDE_PLUGIN_ROOT}` env var |
+
+<img src="assets/footer-wave.svg" width="100%" />

@@ -1,0 +1,55 @@
+<svg width="100%" height="200" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1e24" />
+      <stop offset="50%" stop-color="#25252b" />
+      <stop offset="100%" stop-color="#1a1a1f" />
+    </linearGradient>
+    <linearGradient id="text-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D97757" />
+      <stop offset="50%" stop-color="#ff8f6b" />
+      <stop offset="100%" stop-color="#D97757" />
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <style>
+      /* Text Animations */
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-4px); }
+      }
+
+      .title {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-weight: 800;
+        font-size: 48px;
+        fill: url(#text-gradient);
+        filter: url(#glow);
+        animation: float 5s ease-in-out infinite;
+      }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="200" rx="15" fill="url(#bg-gradient)" />
+
+  <!-- Tech Dots (Static Decoration) -->
+  <circle cx="50" cy="50" r="2" fill="#333" />
+  <circle cx="750" cy="150" r="2" fill="#333" />
+  <circle cx="700" cy="40" r="4" fill="#2a2a2a" />
+  <circle cx="100" cy="160" r="3" fill="#2a2a2a" />
+
+  <!-- Text Content -->
+  <g transform="translate(400, 110)">
+    <text text-anchor="middle" class="title">Claude Plugin Template</text>
+  </g>
+</svg>
