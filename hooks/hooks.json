@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "npx tsx ${CLAUDE_PLUGIN_ROOT}/hooks/session-start.ts"
+      }
+    ]
+  }
+}
